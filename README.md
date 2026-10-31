@@ -1,2 +1,3 @@
 # ChatBot
-Chatbot with Recursive chunking and semantic chaching 
+Chatbot with Recursive chunking, semantic chaching, security, rate limiting and monitoring.
+

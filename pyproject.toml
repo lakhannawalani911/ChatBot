@@ -1,0 +1,28 @@
+[project]
+name = "chatbot"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi>=0.162.0",
+    "langchain>=1.4.7",
+    "langchain-community>=0.4.2",
+    "langchain-google-genai>=4.4.2",
+    "langchain-google-vertexai>=3.2.5",
+    "langchain-tavily>=0.2.18",
+    "langgraph>=1.2.19",
+    "langsmith>=0.14.16",
+    "pydantic>=2.14.2",
+    "pydantic-settings>=2.16.2",
+    "python-dotenv>=1.2.4",
+    "requests>=2.34.2",
+    "slowapi>=0.1.10",
+    "uvicorn>=0.54.0",
+]
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28.1",
+    "pytest>=9.2.0",
+]

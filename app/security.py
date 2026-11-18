@@ -43,17 +43,26 @@ class PIIDetector:
     PATTERNS = {
         "email": r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b",
         "phone": r"\b\d{3}[-.]?\d{3}[-.]?\d{4}\b",
+        "mobile":r"^\+[1-9]\d{1,14}$",
+        "InternationNumber":r"^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$",
+        "india_number":r"^(?:\+91[\-\s]?|0)?[6-9]\d{9}$",
         "ssn": r"\b\d{3}-\d{2}-\d{4}\b",
-        "credit_card": r"\b\d{4}[-\s]?\d{4}[-\s]?\d{4}[-\s]?\d{4}\b",
+        "credit_card": r"^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$",
         "ip_address": r"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b",
+
     }
     def detect(self, txt: str) -> dict[str, list[str]]:
         """Detect PII in text."""
         found = {}
         for pii_type, pattern in self.PATTERNS.items():
-            matches = re.findall(pattern, txt)
-            if matches:
-                found[pii_type] = matches
+            try:
+                matches = re.findall(pattern, txt)
+                if matches:
+                    found[pii_type] = matches
+            except Exception as e:
+                print(f"Error in {pii_type=} {pattern=}")
+                raise ValueError
+        print(f"{found=}")
         return found
 
     def mask(self, text: str) -> str:
@@ -70,6 +79,13 @@ class PIIDetector:
                 masked = re.sub(pattern, "[CARD REDACTED]", masked)
             elif pii_type == "ip_address":
                 masked = re.sub(pattern, "[IP REDACTED]", masked)
+            elif pii_type == "mobile":
+                masked = re.sub(pattern, "[mobile REDACTED]", masked)
+            elif pii_type == "InternationNumber":
+                masked = re.sub(pattern, "[InternationNumber REDACTED]", masked)
+            elif pii_type == "india_number":
+                masked = re.sub(pattern, "[india_number REDACTED]", masked)
+    
         return masked
 
 

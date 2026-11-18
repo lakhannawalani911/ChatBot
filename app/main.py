@@ -18,8 +18,9 @@ from app.security import SecurityPipeline
 from app.cache import ResponseCache
 from app.monitoring import get_logger, MetricsCollector, RequestTimer
 from app.agent import ProductionAgent
-
-load_dotenv(r"C:\Users\lakha\Visual Studio project\chatbot\ChatBot\.env")
+from pathlib import Path
+from os.path import join as path_join
+load_dotenv(path_join(str(Path(__file__).resolve().parent.parent),".env"))
 
 
 logger = get_logger()

@@ -1,6 +1,7 @@
 from pydantic_settings import BaseSettings
 from functools import lru_cache
-
+from pathlib import Path
+from os.path import join as path_join
 class Settings(BaseSettings):
     gemini_api_key:str
     gemini_model_name: str
@@ -16,11 +17,10 @@ class Settings(BaseSettings):
     rate_limit:str = "20/minute"
     cache_ttl_seconds:int =300
     max_retries: int = 3
-
-    model_config = {"env_file":r"C:\Users\lakha\Visual Studio project\chatbot\ChatBot\.env","extra":"ignore"}
+    model_config = {"env_file":path_join(str(Path(__file__).resolve().parent.parent),".env"),"extra":"ignore"}
 
     @property
-    def is_production(self) -> bool:
+    def is_production(self) -> bool:    
         return self.app_env == "production"
 
 @lru_cache

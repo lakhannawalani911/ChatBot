@@ -68,6 +68,8 @@ class PIIDetector:
     def mask(self, text: str) -> str:
         """Mask PII in text."""
         masked = text
+        print("inside pii mask")
+
         for pii_type, pattern in self.PATTERNS.items():
             if pii_type == "email":
                 masked = re.sub(pattern, "[EMAIL REDACTED]", masked)
@@ -80,12 +82,17 @@ class PIIDetector:
             elif pii_type == "ip_address":
                 masked = re.sub(pattern, "[IP REDACTED]", masked)
             elif pii_type == "mobile":
+                print("mobile mask")
                 masked = re.sub(pattern, "[mobile REDACTED]", masked)
             elif pii_type == "InternationNumber":
+                print("internation mask")
+
                 masked = re.sub(pattern, "[InternationNumber REDACTED]", masked)
             elif pii_type == "india_number":
+                print("india mobile mask")
+
                 masked = re.sub(pattern, "[india_number REDACTED]", masked)
-    
+        print(f"new masked value {masked}")
         return masked
 
 

@@ -32,11 +32,11 @@ class MetricsResponse(BaseModel):
     """Metrics endpoint resources"""
     total_request:int
     total_errors:int
-    error_rate:int
-    avg_latency_ms:float
+    error_rate:str
+    avg_latency_ms:str
     cache_hit_rate:str
-    total_input_tokens:int
-    total_output_tokens:int
+    total_input_tokens:float
+    total_output_tokens:float
 
 
 class ErrorResponse(BaseModel):

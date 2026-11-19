@@ -101,8 +101,7 @@ async def chat(request:Request, body:ChatRequest):
 
         cache_response= cache.get(cleaned_text)
         if cache_response is not None:
-            metrics.record_request(latency_ms=0,
-                                   cache_hit=True)
+            metrics.record_request(latency_ms=0, cache_hit=True,input_tokens=0, output_tokens=0)
             
             logger.info("cache hit", 
                         extra={"extra_dara":{"thread_id":body.thread_id}})
@@ -114,7 +113,7 @@ async def chat(request:Request, body:ChatRequest):
                                 processing_time_ms=0,
                                 )
         try:
-            result = agent.invoke(cleaned_text)
+            result = await agent.invoke(cleaned_text)
         except Exception as e:
             logger.error(f'Agent invocation failed {e}', extra={"extra_data":
                                                                 {"thread_id":body.thread_id,
@@ -147,7 +146,8 @@ async def chat(request:Request, body:ChatRequest):
 
 @app.get("/metrics", response_model=MetricsResponse)
 async def get_metrics():
-    summary = metrics.get_summary
+    summary = metrics.get_summary()
+    print(f'{summary=}')
     return MetricsResponse(**summary)
 
 @app.get("/cache/stats")

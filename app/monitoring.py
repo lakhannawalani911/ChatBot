@@ -97,13 +97,14 @@ class MetricsCollector:
         )
 
         return {
-            "total_requests": self.metrics["requests_total"],
+            "total_request": self.metrics["requests_total"],
             "total_errors": self.metrics["errors_total"],
             "error_rate": f"{error_rate:.2%}",
-            "avg_latency_ms": round(avg_latency, 2),
+            "avg_latency_ms": str(round(avg_latency, 2)),
+            "cache_hit_rate": f"{cache_hit_rate:.2%}",
             "total_input_tokens": self.metrics["tokens_input"],
             "total_output_tokens": self.metrics["tokens_output"],
-            "cache_hit_rate": f"{cache_hit_rate:.2%}",
+            
         }
 
 

@@ -26,7 +26,7 @@ class ProductionAgent:
                                            timeout=30,
                                            max_retries=0,
                                            api_key=settings.gemini_api_key
-                                           )
+        )
         self.fallback_llm = ChatGoogleGenerativeAI(model=settings.gemini_model_name,
                                            temperature=0,
                                            timeout=30,
@@ -111,11 +111,11 @@ class ProductionAgent:
         return graph.compile()
 
     @traceable(name="production-api")
-    def invoke(self, message:str)->dict:
+    async def invoke(self, message:str)->dict:
         """invoke the agent with uiser message
             returns: {"message":str, "model_used":str,"error":str|None}
         """
-        result = self.graph.invoke({
+        result =await self.graph.ainvoke({
                 "message":[HumanMessage(content=message)],
                 "error":"None",
                 "retry_count":0,
